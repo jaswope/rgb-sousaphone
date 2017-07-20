@@ -1,0 +1,10 @@
+#pragma once
+#require "tuba_bell.h"
+
+#define NUM_LEDS {{ledCount}}
+
+const PositionInfo ledInfo[] PROGMEM = {
+{{#leds}}
+    { {{pos}},{{ring}},{{ringPos}},{{theta}},{{r}},{{x}},{{y}},{{x8}},{{y8}},{{r8}} },
+{{/leds}}
+};

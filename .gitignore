@@ -1,0 +1,9 @@
+.idea/
+.testing/
+.vs/
+__vm/
+Debug/
+node_modules/
+*.swp
+*.sln
+*.vcxproj*
