@@ -11,8 +11,8 @@
 #include "palettes.h"
 
 
-#define FPS 30
-#define FRAME_DELAY 1000 / FPS
+#define FPS 60
+#define FRAME_DELAY (1000 / FPS)
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
 
@@ -245,26 +245,32 @@ void readGlitter()
 }
 
 #define GLITTER_THROWAWAYS 12
-#define GLITTER_PIXELS 7
+#define GLITTER_PIXELS (NUM_LEDS / 20)
 
 uint8_t throwaways = 0;
 
-uint8_t oldOffset = 0;
+unsigned long nextFrame = 0;
 
 void addGlitter(unsigned long now)
 {
 	if (!glitter)
 		return;
 	int offset = now % FRAME_DELAY;
-	if (offset < oldOffset)
-		throwaways = random8(GLITTER_THROWAWAYS);
-	oldOffset = offset;
+  auto seed = now - offset;
+
+  if (seed >= nextFrame) {
+    nextFrame = seed + FRAME_DELAY;
+    throwaways = random8(GLITTER_THROWAWAYS);
+  }
+
 	uint16_t oldSeed = random16_get_seed();
-	random16_set_seed(now - offset);
+	random16_set_seed(seed);
 	for (uint8_t i = 0; i < throwaways + GLITTER_PIXELS; i++)
 	{
-		if (i >= throwaways)
-			leds[random8(NUM_LEDS)] = CRGB::White;
+		if (i >= throwaways) {
+      auto idx = random8(NUM_LEDS);
+			leds[idx] = CRGB::White;
+		}
 		else
 			random8();
 	}
