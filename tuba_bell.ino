@@ -51,7 +51,7 @@ void setup()
 
 	FastLED.addLeds<NEOPIXEL, PIN_LEDS>(leds, NUM_LEDS);
 	FastLED.setCorrection(TypicalLEDStrip);
-	FastLED.setBrightness(64);
+	FastLED.setBrightness(255);
 
 	Patterns::Setup(leds, ledInfo, NUM_LEDS, PIN_MIC);
 
